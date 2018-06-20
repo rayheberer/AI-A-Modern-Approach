@@ -5,9 +5,9 @@
 __2.9__ Implement a performance-measuring environment simulator for the vacuum-cleaner world depicted in Figure 2.2 and specified on page 38. Your implementation should be modular so that the sensors, actuators, and environment characteristics (size, shape, dirt placement, etc.) can be changed easily. (_Note:_ for some choices of programming language and operating system there are already implementations in the [online code repository](http://aima.cs.berkeley.edu/code.html).)
 
 __2.10__ Consider a modified version of the vacuum environment in Exercise 2.9, in which the agent is penalized one point for each movement.
-__a.__ Can a simple reflec agent be perfectly rational for this environment? Explain.
+__a.__ Can a simple reflex agent be perfectly rational for this environment? Explain.
 __b.__ What about a reflex agent with state? Design such an agent.
-__c.__ How do your answers to __a__ and __b__ change if the agent's perxepts give it the clean/dirty status of every square in the environment?
+__c.__ How do your answers to __a__ and __b__ change if the agent's percepts give it the clean/dirty status of every square in the environment?
 
 __2.11__ Consider a modified version of the vacuum environment in Exercise 2.9, in which the geography of the environment - its extent, boundaries, and obstacles - is unknown, as is the initial dirt configuration. (The agent can go _Up_ and _Down_ as well as _Left_ and _Right_.)
 __a.__ Can a simple reflex agent be perfectly rational for this environment? Explain.
