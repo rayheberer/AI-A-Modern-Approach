@@ -11,7 +11,7 @@ class Square(object):
         self.down = self
 
 class SimpleVacuumWorld(object):
-    def __init__(self, dirt_init='random', move_penalty=False, init_loc=None):
+    def __init__(self, dirt_init='random', move_penalty=False, init_loc=None, perfect_information=False):
         self.squares = []
         self.A = Square('A')
         self.B = Square('B')
@@ -25,6 +25,7 @@ class SimpleVacuumWorld(object):
         self.dirt_init = dirt_init
         self.move_penalty = move_penalty
         self.init_loc = init_loc
+        self.perfect_information = perfect_information
         
     def initialize_dirt(self):
         if self.dirt_init=='random':
@@ -77,7 +78,13 @@ class SimpleVacuumWorld(object):
             
         # 1000 timestep lifetime
         while time < 1000:
-            action = agent.decide(agent.location, agent.location.dirt)
+            if self.perfect_information:
+                percepts = [agent.location, self.A.dirt, self.B.dirt]
+            else:
+                percepts = [agent.location, agent.location.dirt]
+
+
+            action = agent.decide(*percepts)
             
             if action == 'Clean':
                 agent.location.dirt = 0
