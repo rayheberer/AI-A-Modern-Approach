@@ -11,7 +11,7 @@ __c.__ How do your answers to __a__ and __b__ change if the agent's percepts giv
 
 __2.11__ Consider a modified version of the vacuum environment in Exercise 2.9, in which the geography of the environment - its extent, boundaries, and obstacles - is unknown, as is the initial dirt configuration. (The agent can go _Up_ and _Down_ as well as _Left_ and _Right_.)
 __a.__ Can a simple reflex agent be perfectly rational for this environment? Explain.
-__b.__ Can a simple reflex agent with a _randomized_ agent function outperform a simple reflex agent? Design such an agen and measure its performance on several environments.
+__b.__ Can a simple reflex agent with a _randomized_ agent function outperform a simple reflex agent? Design such an agent and measure its performance on several environments.
 __c.__ Can you design an environment in which your randomized agent will perform poorly? Show your results.
 __d.__ Can a reflex agent with state outperform a simple reflex agent? Design such an agent and measure its performance on several environments. Can you design a rational agent of this type?
 
