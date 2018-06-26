@@ -98,3 +98,56 @@ class SimpleVacuumWorld(object):
             time += 1
             
         return score
+
+class UnknownVacuumWorld(SimpleVacuumWorld):
+    def __init__(self, move_penalty=False):
+        self.move_penalty = move_penalty
+        self.squares = []
+
+        self.dirt_init = 'random'
+        self.init_loc = None
+
+    def construct_geography(self, coordinates=None):
+        if coordinates is None:
+            self.A = Square('A')
+            self.B = Square('B')
+            self.squares.append(self.A)
+            self.squares.append(self.B)
+
+            self.A.right = self.B
+            self.B.left = self.A
+
+    def simulate(self, AgentObject):
+        agent = AgentObject()
+        time = 0
+        score = 0
+        
+        # default to simple geography
+        if len(self.squares) == 0:
+            self.construct_geography()
+        # initialize dirt and location
+        self.initialize_dirt()
+        self.initialize_agent_location(agent)
+        
+            
+        # 1000 timestep lifetime
+        while time < 1000:
+            percepts = [agent.location, agent.location.dirt]
+            action = agent.decide(*percepts)
+            
+            if action == 'Clean':
+                agent.location.dirt = 0
+            elif action == 'Left':
+                agent.location = agent.location.left
+            elif action == 'Right':
+                agent.location = agent.location.right
+            elif action == 'Up':
+                agent.location = agent.location.up
+            elif action == 'Down':
+                agent.location = agent.location.down 
+            
+            # performance measure: 1 point per clean square, per timestep
+            score += self.performance(action)
+            time += 1
+            
+        return score

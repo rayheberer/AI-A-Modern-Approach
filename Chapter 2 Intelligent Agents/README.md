@@ -19,4 +19,4 @@ __2.12__ Repeat Exercise 2.11 for the case in which the location sensor is repla
 
 __2.13__ The vacuum environments in the preceding exercises have all been deterministic. Discuss possible agent programs for each of the following stochastic versions:
 __a.__ Murphy's law: twenty-five percent of the time, the _Suck_ action fails to clean the floow if it is dirty and deposits dirt onto the floor if the floor is clean. How is your agent program affected if the dirt sensor gives the wrong answer 10% of the time?
-__b.__ Small children: At each ime step, each clean square has a 10% chance of becoming dirty. Can you come up with a rational agent design for this case?
+__b.__ Small children: At each time step, each clean square has a 10% chance of becoming dirty. Can you come up with a rational agent design for this case?

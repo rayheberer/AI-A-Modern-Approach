@@ -1,3 +1,5 @@
+import numpy as np
+
 class SimpleReflexAgent(object):
     def decide(self, location, dirt):
         if dirt:
@@ -32,3 +34,11 @@ class StatefulReflexAgent(object):
             if location.name == 'B':
                 self.moved = 1
                 return 'Left'
+
+class RandomizedReflexAgent(object):
+    def decide(self, location, dirt):
+        if dirt:
+            return 'Clean'
+        else:
+            moves = ['Left', 'Right', 'Up', 'Down']
+            return np.random.choice(moves)
