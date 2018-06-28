@@ -110,7 +110,7 @@ class UnknownVacuumWorld(SimpleVacuumWorld):
 
         self.geography = geography
         if geography:
-            construct_geography(geography)
+            self.construct_geography()
 
     def construct_geography(self):
         """
@@ -163,7 +163,7 @@ class UnknownVacuumWorld(SimpleVacuumWorld):
                     row_list.append('   ')
             rows.append(''.join(row_list))
             
-        geo = '\n'.append(rows)
+        geo = '\n'.join(rows)
         print(geo)
 
     def simulate(self, AgentObject):
