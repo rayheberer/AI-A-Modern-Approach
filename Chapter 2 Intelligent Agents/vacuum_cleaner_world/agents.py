@@ -1,12 +1,12 @@
-import numpy as np
+import random
 
 class SimpleReflexAgent(object):
     def decide(self, location, dirt):
         if dirt:
             return 'Clean'
-        if location.name == 'A':
+        elif location.name == 'A':
             return 'Right'
-        if location.name == 'B':
+        elif location.name == 'B':
             return 'Left'
 
 class FullInfoReflexAgent(object):
@@ -14,9 +14,9 @@ class FullInfoReflexAgent(object):
         if ((location.name == 'A' and dirtA)
             or (location.name == 'B' and dirtB)):
             return 'Clean'
-        if location.name == 'A' and dirtB:
+        elif location.name == 'A' and dirtB:
             return 'Right'
-        if location.name == 'B' and dirtA:
+        elif location.name == 'B' and dirtA:
             return 'Left'
 
 class StatefulReflexAgent(object):
@@ -27,11 +27,11 @@ class StatefulReflexAgent(object):
         if dirt:
             return 'Clean'
 
-        if self.moved == 0:
+        elif self.moved == 0:
             if location.name == 'A':
                 self.moved = 1
                 return 'Right'
-            if location.name == 'B':
+            elif location.name == 'B':
                 self.moved = 1
                 return 'Left'
 
@@ -41,4 +41,4 @@ class RandomizedReflexAgent(object):
             return 'Clean'
         else:
             moves = ['Left', 'Right', 'Up', 'Down']
-            return np.random.choice(moves)
+            return random.choice(moves)

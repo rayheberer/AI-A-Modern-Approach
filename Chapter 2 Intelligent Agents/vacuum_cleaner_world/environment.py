@@ -1,4 +1,4 @@
-import numpy as np
+import random
 
 class Square(object):
     def __init__(self, name):
@@ -12,6 +12,7 @@ class Square(object):
 
 class SimpleVacuumWorld(object):
     def __init__(self, dirt_init='random', move_penalty=False, init_loc=None, perfect_information=False):
+        # simple 2 square environment geography
         self.squares = []
         self.A = Square('A')
         self.B = Square('B')
@@ -30,7 +31,7 @@ class SimpleVacuumWorld(object):
     def initialize_dirt(self):
         if self.dirt_init=='random':
             for square in self.squares:
-                if np.random.random() > 0.5:
+                if random.random() > 0.5:
                     square.dirt = 1
                 else:
                     square.dirt = 0
@@ -54,7 +55,7 @@ class SimpleVacuumWorld(object):
         elif self.init_loc=='B':
             agent.location = self.B
         else:
-            i = np.random.randint(len(self.squares))
+            i = random.randint(0, len(self.squares)-1)
             agent.location = self.squares[i]
 
     def performance(self, action):
@@ -67,6 +68,7 @@ class SimpleVacuumWorld(object):
         return len(self.squares) - dirt - move
             
     def simulate(self, AgentObject):
+        # initialize agent, time, performance measure
         agent = AgentObject()
         time = 0
         score = 0
@@ -100,24 +102,72 @@ class SimpleVacuumWorld(object):
         return score
 
 class UnknownVacuumWorld(SimpleVacuumWorld):
-    def __init__(self, move_penalty=False):
+    def __init__(self, move_penalty=False, geography=None):
         self.move_penalty = move_penalty
-        self.squares = []
 
         self.dirt_init = 'random'
         self.init_loc = None
 
-    def construct_geography(self, coordinates=None):
-        if coordinates is None:
-            self.A = Square('A')
-            self.B = Square('B')
-            self.squares.append(self.A)
-            self.squares.append(self.B)
+        self.geography = geography
+        if geography:
+            construct_geography(geography)
 
-            self.A.right = self.B
-            self.B.left = self.A
+    def construct_geography(self):
+        """
+        Example Geography (4x4 Grid, obstacle in center and corner):
+                [['AA', 'AB', 'AC', None],
+                 ['BA', 'BB', 'BC', 'BD'],
+                 ['CA', None, 'CC', 'CD'],
+                 ['DA', 'DB', 'DC', 'DD']]
+        """
+        if self.geography:
+            self.squares = [Square(name) for row in self.geography for name in row if name is not None]
+            self.x_coords = [row.index(name) for row in self.geography for name in row if name is not None]
+            self.y_coords = [self.geography.index(row) for row in self.geography for name in row if name is not None]
+            
+            i = 0
+            while i < len(self.squares)-1:
+                j = i + 1
+                x, y = self.x_coords[i], self.y_coords[i]
+
+                while j < len(self.squares):
+                    if self.x_coords[j] == x and self.y_coords[j] == y + 1:
+                        self.squares[i].up = self.squares[j]
+                        self.squares[j].down = self.squares[i]
+
+                    if self.x_coords[j] == x + 1 and self.y_coords[j] == y :
+                        self.squares[i].right = self.squares[j]
+                        self.squares[j].left = self.squares[i]
+                    j += 1
+
+                i += 1
+
+        else:
+            self.squares = []
+            A = Square('A')
+            B = Square('B')
+            self.squares.append(A)
+            self.squares.append(B)
+
+            A.right = B
+            B.left = A
+
+    def display_geography(self):
+        rows = []
+        for row in self.geography:
+            row_list = []
+            for square in row:
+                if square:
+                    row_list.append('|=|')
+                else:
+                    row_list.append('   ')
+            rows.append(''.join(row_list))
+            
+        geo = '\n'.append(rows)
+        print(geo)
 
     def simulate(self, AgentObject):
+        # initialize agent, time, performance measure
         agent = AgentObject()
         time = 0
         score = 0
