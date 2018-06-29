@@ -9,6 +9,17 @@ class SimpleReflexAgent(object):
         elif location.name == 'B':
             return 'Left'
 
+class SimpleReflexAgentUnknown(object):
+    def __init__(self, direction):
+        """Will clean current square, or otherwise move in a specified direction"""
+        self.direction = direction
+
+    def decide(self, location, dirt):
+        if dirt:
+            return 'Clean'
+        else:
+            return self.direction
+
 class FullInfoReflexAgent(object):
     def decide(self, location, dirtA, dirtB):
         if ((location.name == 'A' and dirtA)

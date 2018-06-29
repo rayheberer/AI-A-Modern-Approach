@@ -102,10 +102,10 @@ class SimpleVacuumWorld(object):
         return score
 
 class UnknownVacuumWorld(SimpleVacuumWorld):
-    def __init__(self, move_penalty=False, geography=None):
+    def __init__(self, move_penalty=False, dirt_init='random', geography=None):
         self.move_penalty = move_penalty
 
-        self.dirt_init = 'random'
+        self.dirt_init = dirt_init
         self.init_loc = None
 
         self.geography = geography
@@ -166,9 +166,9 @@ class UnknownVacuumWorld(SimpleVacuumWorld):
         geo = '\n'.join(rows)
         print(geo)
 
-    def simulate(self, AgentObject):
+    def simulate(self, AgentObject, **agent_kwargs):
         # initialize agent, time, performance measure
-        agent = AgentObject()
+        agent = AgentObject(**agent_kwargs)
         time = 0
         score = 0
         
