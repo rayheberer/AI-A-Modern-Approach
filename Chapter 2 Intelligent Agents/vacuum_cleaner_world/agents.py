@@ -53,3 +53,11 @@ class RandomizedReflexAgent(object):
         else:
             moves = ['Left', 'Right', 'Up', 'Down']
             return random.choice(moves)
+
+class StatefulReflexAgentUnknown(object):
+    def __init__(self):
+        self.squares_visited = []
+        self.directions_explored = {}
+
+    def decide(self, location, dirt):
+        pass
