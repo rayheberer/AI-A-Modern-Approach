@@ -68,11 +68,16 @@ class DepthStatefulReflexAgent(object):
     def decide(self, location, dirt):
         if dirt:
             return 'Clean'
-
+        
+        new_loc = False
         if location.name != self.last_location and self.last_location is not None:
             self.movements.append(self.last_action)
+            new_loc = True
 
         if location.name in self.directions_explored.keys():
+            if new_loc and self.backtracking[self.last_action] in self.directions_explored[location.name]:
+                self.directions_explored[location.name].remove(self.backtracking[self.last_action])
+
             if len(self.directions_explored[location.name]) > 0:
                 action = self.directions_explored[location.name][0]
             elif len(self.movements) > 0:
