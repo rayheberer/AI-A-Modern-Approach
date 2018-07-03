@@ -54,7 +54,7 @@ class RandomizedReflexAgent(object):
             moves = ['Left', 'Right', 'Up', 'Down']
             return random.choice(moves)
 
-class StatefulReflexAgentUnknown(object):
+class DepthStatefulReflexAgent(object):
     def __init__(self):
         self.movements = []
         self.directions_explored = {}
@@ -68,27 +68,28 @@ class StatefulReflexAgentUnknown(object):
     def decide(self, location, dirt):
         if dirt:
             return 'Clean'
-        
-        if location.name != self.last_location:
+
+        if location.name != self.last_location and self.last_location is not None:
             self.movements.append(self.last_action)
 
         if location.name in self.directions_explored.keys():
             if len(self.directions_explored[location.name]) > 0:
                 action = self.directions_explored[location.name][0]
-            elif len(self.movements) > 1:
+            elif len(self.movements) > 0:
+                self.last_location = None
                 last_move = self.movements.pop()
-                action = self.backtracking[last_move]
+                return self.backtracking[last_move]
             else:
-                action = None
-
+                return None
         else:
             directions =  ['Up', 'Left', 'Down', 'Right']
             if self.last_action:
                 directions.remove(self.backtracking[self.last_action])
-            self.directions_explored[location.name] = directions
 
+            self.directions_explored[location.name] = directions
             action = self.directions_explored[location.name][0]
 
+        self.directions_explored[location.name].remove(action)
         self.last_location = location.name
         self.last_action = action
 
