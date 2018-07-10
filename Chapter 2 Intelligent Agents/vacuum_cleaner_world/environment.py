@@ -102,7 +102,7 @@ class SimpleVacuumWorld(object):
         return score
 
 class UnknownVacuumWorld(SimpleVacuumWorld):
-    def __init__(self, move_penalty=False, dirt_init='random', geography=None):
+    def __init__(self, move_penalty=False, dirt_init='random', geography=None, bump_sensor=False):
         self.move_penalty = move_penalty
 
         self.dirt_init = dirt_init
@@ -111,6 +111,8 @@ class UnknownVacuumWorld(SimpleVacuumWorld):
         self.geography = geography
         if geography:
             self.construct_geography()
+
+        self.bump_sensor = bump_sensor
 
     def construct_geography(self):
         """
@@ -179,11 +181,23 @@ class UnknownVacuumWorld(SimpleVacuumWorld):
         self.initialize_dirt()
         self.initialize_agent_location(agent)
         
-            
+        last_location = agent.location
+        last_action = None
         # 1000 timestep lifetime
         while time < 1000:
-            percepts = [agent.location, agent.location.dirt]
+            if not self.bump_sensor:
+                percepts = [agent.location, agent.location.dirt]
+            else:
+                if (agent.location == last_location 
+                    and last_action in ['Left', 'Right', 'Up', 'Down']):
+                    bump = True
+                else:
+                    bump = False
+
+                percepts = [bump, agent.location.dirt]
+
             action = agent.decide(*percepts)
+            last_action = action
             
             if action == 'Clean':
                 agent.location.dirt = 0

@@ -55,7 +55,7 @@ class RandomizedReflexAgent(object):
             return random.choice(moves)
 
 class DepthStatefulReflexAgent(object):
-    def __init__(self):
+    def __init__(self, sensor='location'):
         self.movements = []
         self.directions_explored = {}
         self.last_location = None
@@ -65,7 +65,12 @@ class DepthStatefulReflexAgent(object):
                              'Left': 'Right', 
                              'Right': 'Left'}
 
-    def decide(self, location, dirt):
+        if sensor == 'location':
+            self.decide = self.decide_location
+        else:
+            self.decide = self.decide_bump
+
+    def decide_location(self, location, dirt):
         if dirt:
             return 'Clean'
         
@@ -99,3 +104,6 @@ class DepthStatefulReflexAgent(object):
         self.last_action = action
 
         return action
+
+    def decide_bump(self, bump, dirt):
+        pass
