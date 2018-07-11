@@ -68,6 +68,8 @@ class DepthStatefulReflexAgent(object):
         if sensor == 'location':
             self.decide = self.decide_location
         else:
+            self.x = 0
+            self.y = 0
             self.decide = self.decide_bump
 
     def decide_location(self, location, dirt):
@@ -106,4 +108,48 @@ class DepthStatefulReflexAgent(object):
         return action
 
     def decide_bump(self, bump, dirt):
-        pass
+        if dirt:
+            return 'Clean'
+
+        new_loc = False
+        if not bump:
+            self.update_coords(self.last_action)
+            if self.last_location:
+                self.movements.append(self.last_action)
+                new_loc = True
+
+        if (self.x, self.y) in self.directions_explored.keys():
+            if new_loc and self.backtracking[self.last_action] in self.directions_explored[(self.x, self.y)]:
+                self.directions_explored[(self.x,  self.y)].remove(self.backtracking[self.last_action])
+
+            if len(self.directions_explored[(self.x, self.y)]) > 0:
+                action = self.directions_explored[(self.x, self.y)][0]
+            elif len(self.movements) > 0:
+                self.last_location = None
+                last_move = self.movements.pop()
+                return self.backtracking[last_move]
+            else:
+                return None
+        else:
+            directions = ['Up', 'Left', 'Down', 'Right']
+            if self.last_action:
+                directions.remove(self.backtracking[self.last_action])
+
+            self.directions_explored[(self.x, self.y)] = directions
+            action = self.directions_explored[(self.x, self.y)][0]
+
+        self.directions_explored[(self.x, self.y)].remove(action)
+        self.last_location = (self.x, self.y)
+        self.last_action = action
+
+        return action
+
+    def update_coords(self, action):
+        if action == 'Up':
+            self.y += 1
+        elif action == 'Down':
+            self.y -= 1
+        elif action == 'Right':
+            self.x += 1
+        elif action == 'Left':
+            self.x -= 1
