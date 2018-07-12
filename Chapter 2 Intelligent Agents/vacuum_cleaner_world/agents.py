@@ -127,7 +127,9 @@ class DepthStatefulReflexAgent(object):
             elif len(self.movements) > 0:
                 self.last_location = None
                 last_move = self.movements.pop()
-                return self.backtracking[last_move]
+                action = self.backtracking[last_move]
+                self.last_action = action
+                return action
             else:
                 return None
         else:

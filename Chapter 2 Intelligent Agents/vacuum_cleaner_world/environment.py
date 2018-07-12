@@ -185,22 +185,20 @@ class UnknownVacuumWorld(SimpleVacuumWorld):
         last_location = None
         # 1000 timestep lifetime
         while time < 1000:
-            score, last_action, last_location = self.step(last_action, last_location)
+            score, last_action, last_location = self.step(agent, last_action, last_location)
             cumulative_score += score
             time += 1
             
         return cumulative_score
 
-    def step(self, last_action, last_location):
+    def step(self, agent, last_action, last_location):
         if not self.bump_sensor:
             percepts = [agent.location, agent.location.dirt]
         else:
-            if (agent.location == last_location
-                and last_action in ['Left', 'Right', 'Up', 'Down']):
+            if last_action in ['Left', 'Right', 'Up', 'Down'] and agent.location == last_location:
                 bump = True
             else:
                 bump = False
-
             percepts = [bump, agent.location.dirt]
 
         action = agent.decide(*percepts)
