@@ -7,4 +7,12 @@ I present any verbal reasoning and supporting figures in Jupyter notebooks, whic
 ## Contents
 
 ### Chapter 2 - Intelligent Agents
-* Vacuum Cleaner World
+* Vacuum-Cleaner World
+
+### Chapter 3 - Solving Problems by Searching
+* Shortest Path
+* Missionaries and Cannibals
+* 8-puzzle and Traveling Salesperson
+* Web Page URLs
+* Vaccum-Cleaner World
+* A* Graph Search
