@@ -2,7 +2,7 @@
 
 My answers to the programming exercises for the Third Edition of [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/) by Stuart Russell and Peter Norvig.
 
-I present any verbal reasoning and supporting figures in Jupyter notebooks, which import local Python modules containing my implementations.
+I present any verbal reasoning and supporting figures in Jupyter notebooks. Coded portions of the solution are implemented either in local Python modules, or in the notebooks themselves if the code is not too lengthy.
 
 ## Contents
 
